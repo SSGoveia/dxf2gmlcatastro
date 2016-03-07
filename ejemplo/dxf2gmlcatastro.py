@@ -31,14 +31,14 @@ except:
 import os.path
 from plantillacatastro import *
 
-# Comprueba que parcelacad.dxf exixte en el mismo directorio
+# Comprueba que parcelacad.dxf existe en el mismo directorio
 
 dxffile = "parcelacad.dxf"
 if os.path.isfile(dxffile):
-    print "Archivo %d existente." % (dxffile)
+    print "Archivo %s existente." % (dxffile)
 else:
-    print "No existe el fichero", dxffile
-    print  "Añádalo en la misma carpeta que el archivo python."
+    print "No existe el fichero  %s." % (dxffile)
+    print  "Añádalo en la misma carpeta que los archivos python."
     sys.exit()
 
 # Accede mediante gdal al archivo DXF
