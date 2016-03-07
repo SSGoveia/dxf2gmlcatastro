@@ -14,7 +14,7 @@ Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.pyt
 
 ## Pasos
 
-* Generar el archivo DXF seguiremos los Pasos 1 y 2 de la [guía de Catastro]((http://www.catastro.minhap.es/documentos/portal%20generacion%20GML.pdf).
+* Generar el archivo DXF seguiremos los Pasos 1 y 2 de la [guía de Catastro](http://www.catastro.minhap.es/documentos/portal%20generacion%20GML.pdf).
 * Copia del DXF en la misma carpeta donde se encuentran los ficheros *dxf2gmlcatastro.py* y *plantillacatastro.py*
 * Renombrar el DXF a **parcelacad.dxf**
 * Desde terminal ejecutar
