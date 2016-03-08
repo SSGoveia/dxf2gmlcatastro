@@ -4,7 +4,7 @@ Script Python para convertir DXF al GML de Parcela Catastral según el estándar
 
 ***NOTA:El script está generado para archivos DXF en ETRS89 UTM30N (EPGS:25830). A día de hoy para indicar un SRC distinto habrá que editar el archivo plantillacatastro.py o bien cambiar el códifo en el GML final.***
 
-Más información en la entrada de SIGdeletras []()
+Más información en la entrada de SIGdeletras [http://sigdeletras.com/2016/dxf2gmlcatastro-script-python-para-convertir-de-dxf-a-gml-parcela-catastral](http://sigdeletras.com/2016/dxf2gmlcatastro-script-python-para-convertir-de-dxf-a-gml-parcela-catastral)
 
 ## Requisitos
 
