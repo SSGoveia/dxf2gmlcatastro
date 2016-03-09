@@ -50,29 +50,28 @@ layer = dataSource.GetLayer()
 # Genera el archivo gml según el estándar de catastro
 # añade la primera parte del texto
 
-filegml = open(r'gmlcatastro.gml', 'w')
-filegml.writelines(cabecera1)
+with open (r'gmlcatastro.gml', 'w') as filegml:
+    
+    filegml.writelines(cabecera1)
 
-print ("El archivo %s contiene %i geometría." % (dxffile, layer.GetFeatureCount()))
+    print ("El archivo %s contiene %i geometría." % (dxffile, layer.GetFeatureCount()))
 
-for feature in layer:
-    geom = feature.GetGeometryRef()
-    area = geom.Area()
-    print ('El área del polígono es %.4f m2.' % (area))
-    filegml.writelines(str(area))  # añade área al gml
-    perimetro = geom.GetGeometryRef(0)
-    print ('Total de vértices del polígono: %s' % (perimetro.GetPointCount()))
-    print ('Listado de coordenadas:')
-    print ('id,x,y')
+    for feature in layer:
+        geom = feature.GetGeometryRef()
+        area = geom.Area()
+        print ('El área del polígono es %.4f m2.' % (area))
+        filegml.writelines(str(area))  # añade área al gml
+        perimetro = geom.GetGeometryRef(0)
+        print ('Total de vértices del polígono: %s' % (perimetro.GetPointCount()))
+        print ('Listado de coordenadas:')
+        print ('id,x,y')
 
-    filegml.writelines(cabecera2)  # añade texto tras área
+        filegml.writelines(cabecera2)  # añade texto tras área
 
-    for i in range(0, perimetro.GetPointCount()):
-        pt = perimetro.GetPoint(i)
-        coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
-        filegml.writelines(coordlist)  # añade listado de coordenadas X e Y
-        print ("%i,%.4f,%.4f" % (i, pt[0], pt[1]))
+        for i in range(0, perimetro.GetPointCount()):
+            pt = perimetro.GetPoint(i)
+            coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
+            filegml.writelines(coordlist)  # añade listado de coordenadas X e Y
+            print ("%i,%.4f,%.4f" % (i, pt[0], pt[1]))
 
-filegml.writelines(fin)
-dataSource = None
-filegml.close()
+    filegml.writelines(fin)
