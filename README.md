@@ -6,6 +6,11 @@ Script Python para convertir DXF al GML de Parcela Catastral según el estándar
 
 Más información en la entrada de SIGdeletras [http://sigdeletras.com/2016/dxf2gmlcatastro-script-python-para-convertir-de-dxf-a-gml-parcela-catastral](http://sigdeletras.com/2016/dxf2gmlcatastro-script-python-para-convertir-de-dxf-a-gml-parcela-catastral)
 
+## Phyton
+
+El script esta testeaado en Python 2.7.6 y Python 3.4.3.
+
+
 ## Requisitos
 
 Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.python.org/pypi/GDAL/) es la que se encargará de todas las operaciones de acceso y lectura del archivo DXF. 
