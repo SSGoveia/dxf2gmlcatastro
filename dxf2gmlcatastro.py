@@ -54,7 +54,8 @@ with open (r'gmlcatastro.gml', 'w') as filegml:
     
     filegml.writelines(cabecera1)
 
-    print ("El archivo %s contiene %i geometría." % (dxffile, layer.GetFeatureCount()))
+    print ("El archivo %s contiene %i geometría." % (dxffile, \
+        layer.GetFeatureCount()))
 
     for feature in layer:
         geom = feature.GetGeometryRef()
