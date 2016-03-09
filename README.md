@@ -24,7 +24,7 @@ $ pyhon dxf2gmlcatastro.py
 ```
 
 ## 2do
-
+* Incorporar las mejoras de código aportadas en el foro de [Hacklab Almeria](https://foro.hacklabalmeria.net/t/de-dxf-a-gml-con-python/6750/2)
 * Permitir elegir el SRC del GML.
 * Investigar qué es el "Identificativo local de la parcela"  y se si debería solicitar al ejecutar el script.
 * Poder elegir el archivo DXF a transformar
