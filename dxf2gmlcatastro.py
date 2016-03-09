@@ -35,10 +35,10 @@ from plantillacatastro import *
 
 dxffile = "parcelacad.dxf"
 if os.path.isfile(dxffile):
-    print "Archivo %s existente." % (dxffile)
+    print ("Archivo %s existente." % (dxffile))
 else:
-    print "No existe el fichero  %s." % (dxffile)
-    print  "Añádalo en la misma carpeta que los archivos python."
+    print ("No existe el fichero  %s." % (dxffile))
+    print  ("Añádalo en la misma carpeta que los archivos python.")
     sys.exit()
 
 # Accede mediante gdal al archivo DXF
@@ -53,17 +53,17 @@ layer = dataSource.GetLayer()
 filegml = open(r'gmlcatastro.gml', 'w')
 filegml.writelines(cabecera1)
 
-print 'El archivo', dxffile, 'contiene', layer.GetFeatureCount(), 'geometría.'
+print ("El archivo %s contiene %i geometría." % (dxffile, layer.GetFeatureCount()))
 
 for feature in layer:
     geom = feature.GetGeometryRef()
     area = geom.Area()
-    print 'El área del polígono es %.4f m2.' % (area)
+    print ('El área del polígono es %.4f m2.' % (area))
     filegml.writelines(str(area))  # añade área al gml
     perimetro = geom.GetGeometryRef(0)
-    print 'Total de vértices del polígono:', perimetro.GetPointCount()
-    print 'Listado de coordenadas:'
-    print 'id,x,y'
+    print ('Total de vértices del polígono: %s' % (perimetro.GetPointCount()))
+    print ('Listado de coordenadas:')
+    print ('id,x,y')
 
     filegml.writelines(cabecera2)  # añade texto tras área
 
@@ -71,7 +71,7 @@ for feature in layer:
         pt = perimetro.GetPoint(i)
         coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
         filegml.writelines(coordlist)  # añade listado de coordenadas X e Y
-        print "%i,%.4f,%.4f" % (i, pt[0], pt[1])
+        print ("%i,%.4f,%.4f" % (i, pt[0], pt[1]))
 
 filegml.writelines(fin)
 dataSource = None
