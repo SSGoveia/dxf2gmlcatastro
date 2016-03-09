@@ -1,0 +1,4 @@
+Copia el archivo parcelacad.dxf en el mismo directorio que los archivos py.
+Desde consola ejecutar el script
+
+  $ python dxf2gmlcatastro.py
