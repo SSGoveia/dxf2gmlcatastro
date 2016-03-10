@@ -52,7 +52,7 @@ layer = dataSource.GetLayer()
 
 with open (r'gmlcatastro.gml', 'w') as filegml:
     
-    filegml.writelines(cabecera1)
+    filegml.writelines(PLANTILLA_1)
 
     print ("El archivo %s contiene %i geometría." % (dxffile, \
         layer.GetFeatureCount()))
@@ -67,7 +67,7 @@ with open (r'gmlcatastro.gml', 'w') as filegml:
         print ('Listado de coordenadas:')
         print ('id,x,y')
 
-        filegml.writelines(cabecera2)  # añade texto tras área
+        filegml.writelines(PLANTILLA_2)  # añade texto tras área
 
         for i in range(0, perimetro.GetPointCount()):
             pt = perimetro.GetPoint(i)
@@ -75,4 +75,4 @@ with open (r'gmlcatastro.gml', 'w') as filegml:
             filegml.writelines(coordlist)  # añade listado de coordenadas X e Y
             print ("%i,%.4f,%.4f" % (i, pt[0], pt[1]))
 
-    filegml.writelines(fin)
+    filegml.writelines(PLANTILLA_3)

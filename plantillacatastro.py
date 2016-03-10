@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-cabecera1 = """<?xml version="1.0" encoding="utf-8"?>
+PLANTILLA_1 = """<?xml version="1.0" encoding="utf-8"?>
 <!--Parcela Catastral para entregar a la D.G. del Catastro.-->
 <gml:FeatureCollection xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:cp="urn:x-inspire:specification:gmlas:CadastralParcels:3.0" xmlns:base="urn:x-inspire:specification:gmlas:BaseTypes:3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:x-inspire:specification:gmlas:CadastralParcels:3.0 http://inspire.ec.europa.eu/schemas/cp/3.0/CadastralParcels.xsd" gml:id="ES.LOCAL.1">
    <gml:featureMember>
@@ -9,7 +9,7 @@ cabecera1 = """<?xml version="1.0" encoding="utf-8"?>
 <!-- Superficie de la parcela en metros cuadrados. Tiene que coincidir con la calculada con las coordenadas.-->
          <cp:areaValue uom="m2">"""
 
-cabecera2 = """</cp:areaValue>
+PLANTILLA_2 = """</cp:areaValue>
          <cp:beginLifespanVersion xsi:nil="true" nilReason="other:unpopulated"></cp:beginLifespanVersion>
 <!-- Geometria en formato GML       -->
          <cp:geometry>
@@ -25,7 +25,7 @@ cabecera2 = """</cp:areaValue>
                           <gml:posList srsDimension="2">
 """
 
-fin = """                          </gml:posList>
+PLANTILLA_3 = """                          </gml:posList>
                         </gml:LinearRing>
                       </gml:exterior>
                     </gml:PolygonPatch>
