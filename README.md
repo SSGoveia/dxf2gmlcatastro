@@ -18,6 +18,19 @@ Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.pyt
 
     $ sudo apt-get install python-gdal
 
+### GDAL en Windows
+
+#### Usando OSGEO
+
+Tras instalar GDAL mediante [OSGEO4W installer](http://trac.osgeo.org/osgeo4w/wiki) podemo usar *Inicio>OSGeo4W>OSGeo4W Shell* para ejecutar el script.
+
+### Instalando GDAL y definiendo variables del sistema
+
+Podemos seguir alguno de estos dos manuales
+
+* [http://sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows](http://sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows)
+* [http://cartometric.com/blog/2011/10/17/install-gdal-on-windows/](http://cartometric.com/blog/2011/10/17/install-gdal-on-windows/)
+
 ## Pasos
 
 * Generar el archivo DXF seguiremos los Pasos 1 y 2 de la [guía de Catastro](http://www.catastro.minhap.es/documentos/portal%20generacion%20GML.pdf).
@@ -26,7 +39,7 @@ Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.pyt
 * Desde terminal ejecutar
 
 ```
-$ pyhon dxf2gmlcatastro.py
+$ python dxf2gmlcatastro.py
 ```
 
 ## 2do
