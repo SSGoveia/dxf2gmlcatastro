@@ -26,7 +26,7 @@ Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.pyt
 * Desde terminal ejecutar
 
 ```
-$ pyhon dxf2gmlcatastro.py
+$ python dxf2gmlcatastro.py
 ```
 
 ## 2do
