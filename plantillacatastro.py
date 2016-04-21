@@ -12,8 +12,9 @@ PLANTILLA_1 = """<?xml version="1.0" encoding="utf-8"?>
 PLANTILLA_2 = """</cp:areaValue>
          <cp:beginLifespanVersion xsi:nil="true" nilReason="other:unpopulated"></cp:beginLifespanVersion>
 <!-- Geometria en formato GML       -->
-         <cp:geometry>
-<!-- srs Name codigo del sistema de referencia en el que se dan las coordenadas, que debe coincidir con el de la cartografia catastral -->
+         <cp:geometry>"""
+
+SRC_25830 = """<!-- srs Name codigo del sistema de referencia en el que se dan las coordenadas, que debe coincidir con el de la cartografia catastral -->
            <gml:MultiSurface gml:id="MultiSurface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25830"> 
              <gml:surfaceMember>
                <gml:Surface gml:id="Surface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25830">
@@ -24,7 +25,28 @@ PLANTILLA_2 = """</cp:areaValue>
 <!-- Lista de coordenadas separadas por espacios o en lineas diferentes    -->
                           <gml:posList srsDimension="2">
 """
-
+SRC_25831 = """ <!-- srs Name codigo del sistema de referencia en el que se dan las coordenadas, que debe coincidir con el de la cartografia catastral -->
+           <gml:MultiSurface gml:id="MultiSurface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25831"> 
+             <gml:surfaceMember>
+               <gml:Surface gml:id="Surface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25831">
+                  <gml:patches>
+                    <gml:PolygonPatch>
+                      <gml:exterior>
+                        <gml:LinearRing>
+<!-- Lista de coordenadas separadas por espacios o en lineas diferentes    -->
+                          <gml:posList srsDimension="2">
+"""
+SRC_25829 = """ <!-- srs Name codigo del sistema de referencia en el que se dan las coordenadas, que debe coincidir con el de la cartografia catastral -->
+           <gml:MultiSurface gml:id="MultiSurface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25829"> 
+             <gml:surfaceMember>
+               <gml:Surface gml:id="Surface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25829">
+                  <gml:patches>
+                    <gml:PolygonPatch>
+                      <gml:exterior>
+                        <gml:LinearRing>
+<!-- Lista de coordenadas separadas por espacios o en lineas diferentes    -->
+                          <gml:posList srsDimension="2">
+"""
 PLANTILLA_3 = """                          </gml:posList>
                         </gml:LinearRing>
                       </gml:exterior>
