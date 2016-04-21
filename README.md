@@ -8,7 +8,7 @@ Más información en la entrada de SIGdeletras [http://sigdeletras.com/2016/dxf2
 
 ## Versiones de Python y GDAL
 
-El script esta testeaado en Python 2.7.6 y Python 3.4.3.
+El script esta testeado en Python 2.7.6 y Python 3.4.3.
 Para Py2 se ha utilizado la versión GDAL 1.11.2. La versión para Py3 es la 1.10.1.
 
 
@@ -22,7 +22,7 @@ Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.pyt
 
 #### Usando OSGEO
 
-Tras instalar GDAL mediante [OSGEO4W installer](http://trac.osgeo.org/osgeo4w/wiki) podemo usar *Inicio>OSGeo4W>OSGeo4W Shell* para ejecutar el script.
+Tras instalar GDAL mediante [OSGEO4W installer](http://trac.osgeo.org/osgeo4w/wiki) podemos usar *Inicio>OSGeo4W>OSGeo4W Shell* para ejecutar el script.
 
 ### Instalando GDAL y definiendo variables del sistema
 
@@ -34,9 +34,9 @@ Podemos seguir alguno de estos dos manuales
 ## Pasos
 
 * Generar el archivo DXF seguiremos los Pasos 1 y 2 de la [guía de Catastro](http://www.catastro.minhap.es/documentos/portal%20generacion%20GML.pdf).
-* Copia del DXF en la misma carpeta donde se encuentran los ficheros *dxf2gmlcatastro.py* y *plantillacatastro.py*
+* Copiar del DXF en la misma carpeta donde se encuentran los ficheros *dxf2gmlcatastro.py* y *plantillacatastro.py*
 * Renombrar el DXF a **parcelacad.dxf**
-* Desde terminal ejecutar
+* Desde terminal ejecutar:
 
 ```
 $ python dxf2gmlcatastro.py
