@@ -17,7 +17,12 @@ Especificaciones:
 
 Requisistos:
 - Es necesario tener instalado Python y GDAL
-- El archivo DXF debe ser copiado en la misma ruta que los archivos .py
+
+Ejemplos
+python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml
+python dxfgmlcatastro.py carpetadxf/archivocad.dxf carpetagml/gmlsalida.gml
+python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml 25831
+
 """
 
 import sys
@@ -42,12 +47,17 @@ def crea_gml(dxffile):
 	data_source = driver.Open(dxffile, 0)
 	layer = data_source.GetLayer()
 
-	with open('gmlcatastro.gml', 'w') as filegml:
+	# print('Archivo CAD',sys.argv[1])
+	# print('Archivo GML',sys.argv[2])
+	# print('Total de arg:',len(sys.argv))
+
+	with open(sys.argv[2], 'w') as filegml:
 	    filegml.writelines(PLANTILLA_1)
 
 	    print("El archivo %s contiene %i geometría." % (dxffile, 
 			  layer.GetFeatureCount()))
 
+	    
 	    for feature in layer:
 	        geom = feature.GetGeometryRef()
 			
@@ -61,6 +71,14 @@ def crea_gml(dxffile):
 	        print('Listado de coordenadas:\nid,x,y')
 
 	        filegml.writelines(PLANTILLA_2)  # Añade texto tras área
+
+	        src = 'SCR_25830' #src por defecto
+
+	        if len(sys.argv) == 4: # Si existe el argumento SRC (25829 o 2531) modifica variable src
+	        	src = 'SCR_%s' % (sys.argv[3])
+	        	filegml.writelines(src)
+        	else:
+        		filegml.writelines(src)
 
 	        for i in range(0, perimetro.GetPointCount()):
 	            pt = perimetro.GetPoint(i)
@@ -82,14 +100,18 @@ if __name__ == '__main__':
 		sys.exit('ERROR: No se encuentra la plantilla "plantillacatastro"')
 
 	# Comprueba que parcelacad.dxf existe en el mismo directorio
-	dxffile = "parcelacad.dxf"
+	#dxffile = "parcelacad.dxf"
+	
+	# usa el primer argumento para localizar el archivo DXF
+	dxffile = sys.argv[1]
 
-	if os.path.isfile(dxffile):
-		print("Archivo %s existente." % (dxffile))
+	# if os.path.isfile(dxffile):
+	# 	print("Archivo %s existente." % (dxffile))
 		
-	else:
-		print("No existe el fichero %s. Añádalo en la misma carpeta que los scripts de Python." % (dxffile))
+	# else:
+	# 	print("No existe el fichero %s. Revise la ruta y el nombre del DXF." % (dxffile))
 
-		sys.exit()
+	# 	sys.exit()
+
 
 	crea_gml(dxffile)
