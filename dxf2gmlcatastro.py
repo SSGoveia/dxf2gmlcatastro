@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# >> Anotaciones en comentarios y al final del archivo
+
 """
 Nombre:
 dxfparcela2gmlcatastro.py
@@ -13,7 +15,7 @@ El script general el correspondiente fichero GML de parcela catastral según las
 especificaciones de Castastro.
 
 Especificaciones:
-    - http://www.catastro.minhap.gob.es/esp/formatos_intercambio.asp
+	- http://www.catastro.minhap.gob.es/esp/formatos_intercambio.asp
 
 Requisistos:
 - Es necesario tener instalado Python y GDAL
@@ -27,10 +29,10 @@ python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml 25831
 
 import sys
 try:
-    from osgeo import ogr, osr, gdal
+	from osgeo import ogr, osr, gdal
 	
-except:
-    sys.exit('ERROR: Parece que no están instalados los GDAL/OGR')
+except ImportError:     # Capturada excepción al importar
+	sys.exit('ERROR: Parece que no están instalados los GDAL/OGR')
 
 import os.path
 
@@ -52,43 +54,53 @@ def crea_gml(dxffile):
 	# print('Total de arg:',len(sys.argv))
 
 	with open(sys.argv[2], 'w') as filegml:
-	    filegml.writelines(PLANTILLA_1)
+		filegml.writelines(PLANTILLA_1)
 
-	    print("El archivo %s contiene %i geometría." % (dxffile, 
-			  layer.GetFeatureCount()))
+		# print("El archivo %s contiene %i geometría." % (dxffile,
+		# 	  layer.GetFeatureCount()))
+		print("El archivo {} contiene {} geometría.".format(dxffile, layer.GetFeatureCount()))
+		# Te recomendaría usar siempre el formato de str con ''.format(), es mucho más sencillo de usar!
+		# También se pueden controlar el número de dígitos y demás
 
-	    
-	    for feature in layer:
-	        geom = feature.GetGeometryRef()
+		for feature in layer:
+			geom = feature.GetGeometryRef()
 			
-	        area = geom.Area()
-	        print('El área del polígono es %.4f m2.' % (area))
+			area = geom.Area()
+			print('El área del polígono es %.4f m2.' % (area))
 			
-	        filegml.writelines(str(area))  # Añade área al GML
+			filegml.writelines(str(area))  # Añade área al GML
 			
-	        perimetro = geom.GetGeometryRef(0)
-	        print('Total de vértices del polígono: %s' % (perimetro.GetPointCount()))
-	        print('Listado de coordenadas:\nid,x,y')
+			perimetro = geom.GetGeometryRef(0)
+			print('Total de vértices del polígono: %s' % (perimetro.GetPointCount()))
+			print('Listado de coordenadas:\nid,x,y')
 
-	        filegml.writelines(PLANTILLA_2)  # Añade texto tras área
+			filegml.writelines(PLANTILLA_2)  # Añade texto tras área
 
-	        src = 'SCR_25830' #src por defecto
+			src = 'SCR_25830' #src por defecto
 
-	        if len(sys.argv) == 4: # Si existe el argumento SRC (25829 o 2531) modifica variable src
-	        	src = 'SCR_%s' % (sys.argv[3])
-	        	filegml.writelines(src)
-        	else:
-        		filegml.writelines(src)
+			# src = {'25829': SRC_25829,
+			#        '25830': SRC_25830,
+			#        '25831': SRC_25831}
+			# Lo mejor es usar un dict para seleccionar la variable. También te sirve para comprobar si el SRC es
+			# correcto, con src = dict.get('SRC_X'); if not src: print('SRC incorrecto'), o con una excepción
+			# Haces un if not sys.argv(X): src = SRC_X else: blabla
 
-	        for i in range(0, perimetro.GetPointCount()):
-	            pt = perimetro.GetPoint(i)
-	            coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
+			if len(sys.argv) == 4: # Si existe el argumento SRC (25829 o 2531) modifica variable src
+				src = 'SCR_%s' % (sys.argv[3])      # ¿Es el argumento 3 o 4?
+
+				filegml.writelines(src)
+			else:
+				filegml.writelines(src)
+
+			for i in range(0, perimetro.GetPointCount()):
+				pt = perimetro.GetPoint(i)
+				coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
 				
-	            filegml.writelines(coordlist)  # Añade listado de coordenadas X e Y
+				filegml.writelines(coordlist)  # Añade listado de coordenadas X e Y
 				
-	            print("%i,%.4f,%.4f" % (i, pt[0], pt[1]))
+				print("%i,%.4f,%.4f" % (i, pt[0], pt[1]))
 
-	    filegml.writelines(PLANTILLA_3)
+		filegml.writelines(PLANTILLA_3)
 
 
 if __name__ == '__main__':
@@ -115,3 +127,13 @@ if __name__ == '__main__':
 
 
 	crea_gml(dxffile)
+
+	# De todas formas, el SRC y demás me lo llevaba a este if, y a crea_gml le daba todos por argumentos:
+	# tupla_plantillas = (PLANTILLA1, PLANTILLA2, PLANTILLA3)
+	# crea_gml(dxf_origen_file, gml_salida_file, tupla_plantillas, src)
+	# De hecho, en vez de introducirle como args los nombres de los archivos, le puedes pasar el archivo en si y
+	# gestionar en el main los archivos.
+	# Así, to,do lo de sys es externo a la función, puesto que puede ser dependiente del sistema, y la función es
+	# mucho más reutilizable, puesto que aquí se usa de esta forma en este script, y en otro módulo o demás se puede
+	# usar de otra, y tienes más probabilidades de que utilicen tu script para incluirlo en otros proyectos y ganar
+	# esa mención
