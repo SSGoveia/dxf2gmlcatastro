@@ -37,7 +37,7 @@ except ImportError:     # Capturada excepción al importar
 import os.path
 
 
-def crea_gml(dxffile):
+def crea_gml(dxf_origen_file, gml_salida_file, src):
 	""" Primera línea de documentación define la función
 	
 	Siguientes líneas completan el resto de la documentación y declaran los inputs y outputs.
@@ -46,19 +46,21 @@ def crea_gml(dxffile):
 	"""
 	# Accede mediante GDAL al archivo DXF
 	driver = ogr.GetDriverByName('DXF')
-	data_source = driver.Open(dxffile, 0)
+	data_source = driver.Open(dxf_origen_file, 0)
 	layer = data_source.GetLayer()
 
 	# print('Archivo CAD',sys.argv[1])
 	# print('Archivo GML',sys.argv[2])
 	# print('Total de arg:',len(sys.argv))
 
-	with open(sys.argv[2], 'w') as filegml:
+	# with open(sys.argv[2], 'w') as filegml:
+	with open(gml_salida_file, 'w') as filegml:
+
 		filegml.writelines(PLANTILLA_1)
 
-		# print("El archivo %s contiene %i geometría." % (dxffile,
+		# print("El archivo %s contiene %i geometría." % (dxf_origen_file,
 		# 	  layer.GetFeatureCount()))
-		print("El archivo {} contiene {} geometría.".format(dxffile, layer.GetFeatureCount()))
+		print("El archivo {} contiene {} geometría.".format(dxf_origen_file, layer.GetFeatureCount()))
 		# Te recomendaría usar siempre el formato de str con ''.format(), es mucho más sencillo de usar!
 		# También se pueden controlar el número de dígitos y demás
 
@@ -76,21 +78,19 @@ def crea_gml(dxffile):
 
 			filegml.writelines(PLANTILLA_2)  # Añade texto tras área
 
-			src = 'SCR_25830' #src por defecto
+			#src = SRC_25830 #src por defecto
 
-			# src = {'25829': SRC_25829,
-			#        '25830': SRC_25830,
-			#        '25831': SRC_25831}
+			src_dic = {'25829': SRC_25829,
+			       '25830': SRC_25830,
+			       '25831': SRC_25831}
 			# Lo mejor es usar un dict para seleccionar la variable. También te sirve para comprobar si el SRC es
 			# correcto, con src = dict.get('SRC_X'); if not src: print('SRC incorrecto'), o con una excepción
 			# Haces un if not sys.argv(X): src = SRC_X else: blabla
 
-			if len(sys.argv) == 4: # Si existe el argumento SRC (25829 o 2531) modifica variable src
-				src = 'SCR_%s' % (sys.argv[3])      # ¿Es el argumento 3 o 4?
+			src = dict.get(sys.argv[3])
 
-				filegml.writelines(src)
-			else:
-				filegml.writelines(src)
+
+			filegml.writelines(src_dic[sys.argv[3]])
 
 			for i in range(0, perimetro.GetPointCount()):
 				pt = perimetro.GetPoint(i)
@@ -112,21 +112,24 @@ if __name__ == '__main__':
 		sys.exit('ERROR: No se encuentra la plantilla "plantillacatastro"')
 
 	# Comprueba que parcelacad.dxf existe en el mismo directorio
-	#dxffile = "parcelacad.dxf"
+	#dxf_origen_file = "parcelacad.dxf"
 	
 	# usa el primer argumento para localizar el archivo DXF
-	dxffile = sys.argv[1]
+	dxf_origen_file = sys.argv[1]
+	gml_salida_file = sys.argv[2]
+	src = sys.argv[3]
 
-	# if os.path.isfile(dxffile):
-	# 	print("Archivo %s existente." % (dxffile))
+
+	# if os.path.isfile(dxf_origen_file):
+	# 	print("Archivo %s existente." % (dxf_origen_file))
 		
 	# else:
-	# 	print("No existe el fichero %s. Revise la ruta y el nombre del DXF." % (dxffile))
+	# 	print("No existe el fichero %s. Revise la ruta y el nombre del DXF." % (dxf_origen_file))
 
 	# 	sys.exit()
 
 
-	crea_gml(dxffile)
+	crea_gml(dxf_origen_file, gml_salida_file, src)
 
 	# De todas formas, el SRC y demás me lo llevaba a este if, y a crea_gml le daba todos por argumentos:
 	# tupla_plantillas = (PLANTILLA1, PLANTILLA2, PLANTILLA3)
