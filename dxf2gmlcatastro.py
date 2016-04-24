@@ -20,7 +20,7 @@ Especificaciones:
 Requisistos:
 - Es necesario tener instalado Python y GDAL
 
-Ejemplos
+Ejemplos:
 python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml
 python dxfgmlcatastro.py carpetadxf/archivocad.dxf carpetagml/gmlsalida.gml
 python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml 25831
@@ -45,24 +45,22 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 	del texto	
 	"""
 	# Accede mediante GDAL al archivo DXF
+
 	driver = ogr.GetDriverByName('DXF')
 	data_source = driver.Open(dxf_origen_file, 0)
 	layer = data_source.GetLayer()
 
-	# print('Archivo CAD',sys.argv[1])
-	# print('Archivo GML',sys.argv[2])
-	# print('Total de arg:',len(sys.argv))
 
-	# with open(sys.argv[2], 'w') as filegml:
+	print('Archivo GML de salida: ',sys.argv[2])
+	print('Código EPSG seleccionado: ',sys.argv[3], '\n')
+	
+
 	with open(gml_salida_file, 'w') as filegml:
 
 		filegml.writelines(PLANTILLA_1)
 
-		# print("El archivo %s contiene %i geometría." % (dxf_origen_file,
-		# 	  layer.GetFeatureCount()))
 		print("El archivo {} contiene {} geometría.".format(dxf_origen_file, layer.GetFeatureCount()))
 		# Te recomendaría usar siempre el formato de str con ''.format(), es mucho más sencillo de usar!
-		# También se pueden controlar el número de dígitos y demás
 
 		for feature in layer:
 			geom = feature.GetGeometryRef()
@@ -78,19 +76,8 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 
 			filegml.writelines(PLANTILLA_2)  # Añade texto tras área
 
-			#src = SRC_25830 #src por defecto
-
-			src_dic = {'25829': SRC_25829,
-			       '25830': SRC_25830,
-			       '25831': SRC_25831}
-			# Lo mejor es usar un dict para seleccionar la variable. También te sirve para comprobar si el SRC es
-			# correcto, con src = dict.get('SRC_X'); if not src: print('SRC incorrecto'), o con una excepción
-			# Haces un if not sys.argv(X): src = SRC_X else: blabla
-
-			src = dict.get(sys.argv[3])
-
-
-			filegml.writelines(src_dic[sys.argv[3]])
+			
+			filegml.writelines(src_dict[sys.argv[3]]) # Añade texto SRC selecionado
 
 			for i in range(0, perimetro.GetPointCount()):
 				pt = perimetro.GetPoint(i)
@@ -111,32 +98,33 @@ if __name__ == '__main__':
 	except:
 		sys.exit('ERROR: No se encuentra la plantilla "plantillacatastro"')
 
-	# Comprueba que parcelacad.dxf existe en el mismo directorio
-	#dxf_origen_file = "parcelacad.dxf"
 	
-	# usa el primer argumento para localizar el archivo DXF
-	dxf_origen_file = sys.argv[1]
-	gml_salida_file = sys.argv[2]
-	src = sys.argv[3]
-
-
-	# if os.path.isfile(dxf_origen_file):
-	# 	print("Archivo %s existente." % (dxf_origen_file))
+	if len(sys.argv)<4: # Comprueban si están todos los argumentos necesarios
+		print('Falta algunos de los argumentos (archivo dxf, archivo gml y/o código SRC.)')
 		
-	# else:
-	# 	print("No existe el fichero %s. Revise la ruta y el nombre del DXF." % (dxf_origen_file))
+		sys.exit()
 
-	# 	sys.exit()
+	dxf_origen_file = sys.argv[1] # Usa el primer argumento para localizar el archivo DXF
+	gml_salida_file = sys.argv[2] # Usa el segundo argumento para crear el archivo GML
+	src = sys.argv[3] # Usa el tercer argumento para definir el SRC
+
+
+	if os.path.isfile(dxf_origen_file): # Comprueba que el archivo DXF existe
+		print('\nArchivo CAD de entrada: ',sys.argv[1])
+		
+	else:
+		print("No existe el fichero %s. Revise la ruta y el nombre del DXF." % (dxf_origen_file))
+
+		sys.exit()
+
+	src_dict = {'25829': SRC_25829, '25830': SRC_25830, '25831': SRC_25831}
+
+	src = src_dict.get(sys.argv[3])
+
+	if not src: # compruba que el SRC esté en el diccionario
+		print('El SRC indicado es incorrecto. Los SRC permitidos son 25829, 25830, 25831')
+
+		sys.exit()
 
 
 	crea_gml(dxf_origen_file, gml_salida_file, src)
-
-	# De todas formas, el SRC y demás me lo llevaba a este if, y a crea_gml le daba todos por argumentos:
-	# tupla_plantillas = (PLANTILLA1, PLANTILLA2, PLANTILLA3)
-	# crea_gml(dxf_origen_file, gml_salida_file, tupla_plantillas, src)
-	# De hecho, en vez de introducirle como args los nombres de los archivos, le puedes pasar el archivo en si y
-	# gestionar en el main los archivos.
-	# Así, to,do lo de sys es externo a la función, puesto que puede ser dependiente del sistema, y la función es
-	# mucho más reutilizable, puesto que aquí se usa de esta forma en este script, y en otro módulo o demás se puede
-	# usar de otra, y tienes más probabilidades de que utilicen tu script para incluirlo en otros proyectos y ganar
-	# esa mención
