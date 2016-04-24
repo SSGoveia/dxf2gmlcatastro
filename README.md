@@ -1,8 +1,6 @@
-# dxf2gmlcatastro
+# dxf2gmlcatastro (v. 2)
 
 Script Python para convertir DXF al GML de Parcela Catastral según el estándar de la Dirección General de Catastro.
-
-***NOTA:El script está generado para archivos DXF en ETRS89 UTM30N (EPGS:25830). A día de hoy para indicar un SRC distinto habrá que editar el archivo plantillacatastro.py o bie.n cambiar el códifo en el GML final.***
 
 Más información en la entrada de SIGdeletras [http://sigdeletras.com/2016/dxf2gmlcatastro-script-python-para-convertir-de-dxf-a-gml-parcela-catastral](http://sigdeletras.com/2016/dxf2gmlcatastro-script-python-para-convertir-de-dxf-a-gml-parcela-catastral)
 
@@ -34,20 +32,21 @@ Podemos seguir alguno de estos dos manuales
 ## Pasos
 
 * Generar el archivo DXF seguiremos los Pasos 1 y 2 de la [guía de Catastro](http://www.catastro.minhap.es/documentos/portal%20generacion%20GML.pdf).
-* Copiar del DXF en la misma carpeta donde se encuentran los ficheros *dxf2gmlcatastro.py* y *plantillacatastro.py*
-* Renombrar el DXF a **parcelacad.dxf**
-* Desde terminal ejecutar:
+* Desde terminal ejecutar dxf2gmlcatastro.py añadiendo los arguementos necesarios:
+    - ruta/nombre de dxf de entrada
+    - nombre del gml de salida
+    - Código EPSG del Sistema de Referencia de Coordenadas del archivo DXF
+        + 25828 Proyección UTM ETRS89 Huso 28 N
+        + 25829 Proyección UTM ETRS89 Huso 29 N
+        + 25830 Proyección UTM ETRS89 Huso 30 N
+        + 25831 Proyección UTM ETRS89 Huso 31 N
 
 ```
-$ python dxf2gmlcatastro.py
+$ python dxf2gmlcatastro.py archivodxf.dxf archivogml.gml 25830
 ```
 
 ## 2do
-* Incorporar las mejoras de código aportadas en el foro de [Hacklab Almeria](https://foro.hacklabalmeria.net/t/de-dxf-a-gml-con-python/6750/2)
-* Permitir elegir el SRC del GML.
 * Investigar qué es el "Identificativo local de la parcela"  y se si debería solicitar al ejecutar el script.
-* Poder elegir el archivo DXF a transformar
-* Poder elegir el archivo GML a crear
 * Generar un GML de varias parcelas catastrales
 * Crear un script para edificio
-* Probarlo en otros Sistemas Operativos
+* Probarlo en otros Sistemas Operativos (MacOS)
