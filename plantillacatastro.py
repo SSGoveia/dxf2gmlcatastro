@@ -47,6 +47,19 @@ SRC_25829 = """ <!-- srs Name codigo del sistema de referencia en el que se dan 
 <!-- Lista de coordenadas separadas por espacios o en lineas diferentes    -->
                           <gml:posList srsDimension="2">
 """
+
+SRC_25828 = """ <!-- srs Name codigo del sistema de referencia en el que se dan las coordenadas, que debe coincidir con el de la cartografia catastral -->
+           <gml:MultiSurface gml:id="MultiSurface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25828"> 
+             <gml:surfaceMember>
+               <gml:Surface gml:id="Surface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::25828">
+                  <gml:patches>
+                    <gml:PolygonPatch>
+                      <gml:exterior>
+                        <gml:LinearRing>
+<!-- Lista de coordenadas separadas por espacios o en lineas diferentes    -->
+                          <gml:posList srsDimension="2">
+"""
+
 PLANTILLA_3 = """                          </gml:posList>
                         </gml:LinearRing>
                       </gml:exterior>

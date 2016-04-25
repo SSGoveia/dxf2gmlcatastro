@@ -18,8 +18,6 @@ Requisistos:
 	- Es necesario tener instalado Python y el módulo GDAL
 
 Ejemplos:
-	- python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml
-	- python dxfgmlcatastro.py carpetadxf/archivocad.dxf carpetagml/gmlsalida.gml
 	- python dxfgmlcatastro.py archivocad.dxf gmlsalida.gml 25831
 
 """
@@ -33,14 +31,11 @@ except ImportError:     # Capturada excepción al importar
 
 
 def crea_gml(dxf_origen_file, gml_salida_file, src):
-	""" Generar un archivo GML según la geometría de origen y el estándar de catastro elegido
-
-	Transforma la información de la geometría del archivo DXF al estándar de catastro elegido entre SRC_25829,
-	SRC_25830 y SRC_25831. Devuelve archivo en formato GML en el mismo directorio con dicha información
+	""" Transforma la información de la geometría de un archivo DXF al estándar de Catastro en formato GML.
 
 	:dxf_origen_file:   Dirección del archivo en formato DXF con la geometría de origen
 	:gml_salida_file:   Dirección del archivo en formato GML a sobreescribir con el resultado
-	:src:               Estándar de catastro elegido
+	:src:               Sistema de Refencia de Coordendas del DXF. Según cógigos  EPSG
 	"""
 	# Accede mediante GDAL al archivo DXF
 	driver = ogr.GetDriverByName('DXF')
@@ -65,8 +60,8 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 			
 			perimetro = geom.GetGeometryRef(0)
 
-			print('Total de vértices del polígono: {}'.format(perimetro.GetPointCount()))
-			print('Listado de coordenadas:\nid,x,y')
+			print('\nTotal de vértices del polígono: {}'.format(perimetro.GetPointCount()))
+			print('Listado de coordenadas de los vértices:\nid,x,y')
 
 			filegml.writelines(PLANTILLA_2)                 # Añade XML tras área
 			filegml.writelines(SRC_DICT[sys.argv[3]])       # Añade XML SRC selecionado
@@ -75,15 +70,15 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 				pt = perimetro.GetPoint(i)
 				coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
 				
-				filegml.writelines(coordlist)       # Añade listado de coordenadas X e Y
+				filegml.writelines(coordlist)       # Añade listado de coordenadas X e Y al GML
 				
 				print('{},{:.4f},{:.4f}'.format(i, pt[0], pt[1]))
 
-		filegml.writelines(PLANTILLA_3)
+		filegml.writelines(PLANTILLA_3) # Añade XML
 
 
 if __name__ == '__main__':
-	# Comprueba que plantillacatastro existe en el directorio actual
+	# Comprueba que plantillacatastro.py existe en el directorio actual
 	try:
 		from plantillacatastro import *
 
@@ -91,7 +86,7 @@ if __name__ == '__main__':
 		sys.exit('ERROR: No se encuentra el script plantilla "plantillacatastro" en el directorio')
 
 	if len(sys.argv) < 4:
-		sys.exit('ERROR: Algunos argumentos no indicados: archivo dxf, archivo gml y/o código SRC.')
+		sys.exit('ERROR: Falta alguno de los argumentos obligatorio: archivo dxf, archivo gml y/o código SRC.')
 
 	dxf_origen_file = sys.argv[1]       # Archivo DXF de origen
 	gml_salida_file = sys.argv[2]       # Archivo GML de salida
@@ -103,12 +98,13 @@ if __name__ == '__main__':
 	else:
 		sys.exit('ERROR: No existe el fichero DXF {}. Revise la ruta y el nombre de archivo.'.format(dxf_origen_file))
 
-	SRC_DICT = {'25829': SRC_25829,
+	SRC_DICT = {'25828': SRC_25828,
+				'25829': SRC_25829,
 	            '25830': SRC_25830,
-	            '25831': SRC_25831}     # Los dict en multilínea son algo más legibles. En mayus. por ser const. global
+	            '25831': SRC_25831}
 
 	src = SRC_DICT.get(sys.argv[3])
 	if not src:
-		sys.exit('ERROR: SRC indicado incorrecto. SRC permitidos: 25829, 25830, 25831')
+		sys.exit('ERROR: SRC indicado incorrecto. SRC permitidos: 25828, 25829, 25830 o 25831')
 
 	crea_gml(dxf_origen_file, gml_salida_file, src)
