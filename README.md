@@ -18,6 +18,8 @@ Tener instalado Python y la libraría GDAL. La librería [GDAL](https://pypi.pyt
 
 ### GDAL en Windows
 
+Más información en la entrada ["Instalación de Python y GDAL en Windows"](http://www.sigdeletras.com/2016/instalacion-de-python-y-gdal-en-windows)
+
 #### Usando OSGEO
 
 Tras instalar GDAL mediante [OSGEO4W installer](http://trac.osgeo.org/osgeo4w/wiki) podemos usar *Inicio>OSGeo4W>OSGeo4W Shell* para ejecutar el script.
