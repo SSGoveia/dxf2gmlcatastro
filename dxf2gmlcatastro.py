@@ -29,6 +29,14 @@ try:
 except ImportError:     # Capturada excepción al importar
 	sys.exit('ERROR: Paquetes GDAL/OGR no encontrados. Compruebe que están instalados correctamente')
 
+from plantillacatastro import *
+
+SRC_DICT = {'25828': SRC_25828,
+			'25829': SRC_25829,
+            '25830': SRC_25830,
+            '25831': SRC_25831}
+# 03 lo tengo que añadir aquí porque si no no encontraba la constantes SRC_DIST
+# NameError: name 'SRC_DICT' is not defined
 
 def crea_gml(dxf_origen_file, gml_salida_file, src):
 	""" Transforma la información de la geometría de un archivo DXF al estándar de Catastro en formato GML.
@@ -42,12 +50,16 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 	data_source = driver.Open(dxf_origen_file, 0)
 	layer = data_source.GetLayer()
 
-	print('Archivo GML de salida: {}'.format(sys.argv[2]))
-	print('Código EPSG seleccionado: {}\n'.format(sys.argv[3]))
+	# print('Archivo GML de salida: {}'.format(sys.argv[2]))
+	# print('Código EPSG seleccionado: {}\n'.format(sys.argv[3]))
+
+	##  01 me da un IndexError: list index out of range
+
 
 	with open(gml_salida_file, 'w') as filegml:
-		filegml.writelines(PLANTILLA_1)
-
+		filegml.writelines(PLANTILLA_1) 
+		# 02 he tenido que añadir el from plantillacatastro import * antes (lin 32)
+		# porque no encontraba las constantes
 		print('El archivo {} contiene {} geometría.'.format(dxf_origen_file, layer.GetFeatureCount()))
 
 		for feature in layer:
@@ -66,6 +78,10 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 			filegml.writelines(PLANTILLA_2)                 # Añade XML tras área
 			filegml.writelines(SRC_DICT[sys.argv[3]])       # Añade XML SRC selecionado
 
+			## 04 AQUÍ ME HE QUEDADO!!!!!
+			## ME VUELVE A SALIR IndexError: list index out of range
+			## PERO NO SE ME OCURRE COMO ARREGLARLO
+			
 			for i in range(0, perimetro.GetPointCount()):
 				pt = perimetro.GetPoint(i)
 				coordlist = [str(pt[0]), ' ', str(pt[1]), '\n']
@@ -98,10 +114,10 @@ if __name__ == '__main__':
 	else:
 		sys.exit('ERROR: No existe el fichero DXF {}. Revise la ruta y el nombre de archivo.'.format(dxf_origen_file))
 
-	SRC_DICT = {'25828': SRC_25828,
-				'25829': SRC_25829,
-	            '25830': SRC_25830,
-	            '25831': SRC_25831}
+	# SRC_DICT = {'25828': SRC_25828,
+	# 			'25829': SRC_25829,
+	#             '25830': SRC_25830,
+	#             '25831': SRC_25831}
 
 	src = SRC_DICT.get(sys.argv[3])
 	if not src:
