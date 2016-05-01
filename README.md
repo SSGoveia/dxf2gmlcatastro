@@ -1,4 +1,4 @@
-# dxf2gmlcatastro (v. 2)
+# dxf2gmlcatastro (v. 2.1)
 
 Script Python para convertir DXF al GML de Parcela Catastral según el estándar de la Dirección General de Catastro.
 
@@ -46,6 +46,14 @@ Podemos seguir alguno de estos dos manuales
 ```
 $ python dxf2gmlcatastro.py archivodxf.dxf archivogml.gml 25830
 ```
+
+## Usar dxf2gmlcatastro en QGIS
+
+Definir la variable PYTHONPATH
+
+Importar módulo
+
+Ejecutar la función crea_gml
 
 ## 2do
 * Investigar qué es el "Identificativo local de la parcela"  y se si debería solicitar al ejecutar el script.

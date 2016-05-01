@@ -7,6 +7,9 @@ dxfparcela2gmlcatastro.py
 Autor:
 Patricio Soriano :: SIGdeletras.com
 
+Colaboradores:
+	- Marcos Manuel Ortega :: Indavelopers
+
 Descripción:
 El script general el correspondiente fichero GML de parcela catastral según las
 especificaciones de Castastro.
@@ -29,6 +32,13 @@ try:
 except ImportError:     # Capturada excepción al importar
 	sys.exit('ERROR: Paquetes GDAL/OGR no encontrados. Compruebe que están instalados correctamente')
 
+# Comprueba que plantillacatastro.py existe en el directorio actual
+try:
+	from plantillacatastro import *
+
+except ImportError:
+	sys.exit('ERROR: No se encuentra el script plantilla "plantillacatastro" en el directorio')
+
 
 def crea_gml(dxf_origen_file, gml_salida_file, src):
 	""" Transforma la información de la geometría de un archivo DXF al estándar de Catastro en formato GML.
@@ -42,8 +52,13 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 	data_source = driver.Open(dxf_origen_file, 0)
 	layer = data_source.GetLayer()
 
-	print('Archivo GML de salida: {}'.format(sys.argv[2]))
-	print('Código EPSG seleccionado: {}\n'.format(sys.argv[3]))
+	if src not in SRC_DICT: # Comprueba que el SRC es correcto
+		print('ERROR: El código SRC ({}) indicado es incorrecto.'.format(src))
+		print('Los SRC permitidos son 25828, 25829, 25830 o 25831')
+		sys.exit()
+
+	print('Archivo GML de salida: {}'.format(gml_salida_file))
+	print('Código EPSG seleccionado: {}\n'.format(src))
 
 	with open(gml_salida_file, 'w') as filegml:
 		filegml.writelines(PLANTILLA_1)
@@ -63,8 +78,11 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 			print('\nTotal de vértices del polígono: {}'.format(perimetro.GetPointCount()))
 			print('Listado de coordenadas de los vértices:\nid,x,y')
 
-			filegml.writelines(PLANTILLA_2)                 # Añade XML tras área
-			filegml.writelines(SRC_DICT[sys.argv[3]])       # Añade XML SRC selecionado
+			filegml.writelines(PLANTILLA_2_1)
+			filegml.writelines(src)
+			filegml.writelines(PLANTILLA_2_2)
+			filegml.writelines(src)
+			filegml.writelines(PLANTILLA_2_3)
 
 			for i in range(0, perimetro.GetPointCount()):
 				pt = perimetro.GetPoint(i)
@@ -78,13 +96,6 @@ def crea_gml(dxf_origen_file, gml_salida_file, src):
 
 
 if __name__ == '__main__':
-	# Comprueba que plantillacatastro.py existe en el directorio actual
-	try:
-		from plantillacatastro import *
-
-	except ImportError:
-		sys.exit('ERROR: No se encuentra el script plantilla "plantillacatastro" en el directorio')
-
 	if len(sys.argv) < 4:
 		sys.exit('ERROR: Falta alguno de los argumentos obligatorio: archivo dxf, archivo gml y/o código SRC.')
 
@@ -98,13 +109,7 @@ if __name__ == '__main__':
 	else:
 		sys.exit('ERROR: No existe el fichero DXF {}. Revise la ruta y el nombre de archivo.'.format(dxf_origen_file))
 
-	SRC_DICT = {'25828': SRC_25828,
-				'25829': SRC_25829,
-	            '25830': SRC_25830,
-	            '25831': SRC_25831}
-
-	src = SRC_DICT.get(sys.argv[3])
-	if not src:
+	if src not in SRC_DICT: # Comprueba que el SRC es correcto
 		sys.exit('ERROR: SRC indicado incorrecto. SRC permitidos: 25828, 25829, 25830 o 25831')
 
 	crea_gml(dxf_origen_file, gml_salida_file, src)
