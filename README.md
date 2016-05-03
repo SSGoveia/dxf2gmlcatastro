@@ -49,11 +49,15 @@ $ python dxf2gmlcatastro.py archivodxf.dxf archivogml.gml 25830
 
 ## Usar dxf2gmlcatastro en QGIS
 
-Definir la variable PYTHONPATH
+Para usar el módulo en QGIS 
+- Instalar [QGIS](https://www.qgis.org/en/site/forusers/download.html)
+- Definir variable PYTHONPATH con la carpeta donde se encuentre los archivos de dxf2gmlcatastro
+- Importar *dxf2gmlcatastro* usando la consola de Python de QGIS
+- Ejecutar la función crea_gml
 
-Importar módulo
+    dxf2gmlcatastro.crea_gml('C:\carpeta\archivoparcela.dxf', 'C:\carpeta\gmlcatastro.gml', '25830')
 
-Ejecutar la función crea_gml
+Más información en la entrada [Cómo usar módulos de Python en QGIS. Un ejemplo con dxf2gmlcatastro](http://www.sigdeletras.com/2016/como-usar-modulos-de-python-en-qgis-un-ejemplo-con-dxf2gmlcatastro)
 
 ## 2do
 * Investigar qué es el "Identificativo local de la parcela"  y se si debería solicitar al ejecutar el script.
