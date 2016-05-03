@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-SRC_DICT = ['25828','25829','25830','25831']
+SRC_DICT = ['25828', '25829', '25830', '25831']
 
 PLANTILLA_1 = """<?xml version="1.0" encoding="utf-8"?>
 <!--Parcela Catastral para entregar a la D.G. del Catastro.-->
@@ -11,25 +11,21 @@ PLANTILLA_1 = """<?xml version="1.0" encoding="utf-8"?>
 <!-- Superficie de la parcela en metros cuadrados. Tiene que coincidir con la calculada con las coordenadas.-->
          <cp:areaValue uom="m2">"""
 
-PLANTILLA_2_1 = """</cp:areaValue>
+PLANTILLA_2 = """</cp:areaValue>
          <cp:beginLifespanVersion xsi:nil="true" nilReason="other:unpopulated"></cp:beginLifespanVersion>
 <!-- Geometria en formato GML       -->
          <cp:geometry><!-- srs Name codigo del sistema de referencia en el que se dan las coordenadas, que debe coincidir con el de la cartografia catastral -->
-           <gml:MultiSurface gml:id="MultiSurface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::"""
-
-PLANTILLA_2_2 =""""> 
+           <gml:MultiSurface gml:id="MultiSurface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::{src}">
              <gml:surfaceMember>
-               <gml:Surface gml:id="Surface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::"""
-
-PLANTILLA_2_3 ="""">
+               <gml:Surface gml:id="Surface_ES.LOCAL.1A" srsName="urn:ogc:def:crs:EPSG::{src}">
                   <gml:patches>
                     <gml:PolygonPatch>
                       <gml:exterior>
                         <gml:LinearRing>
 <!-- Lista de coordenadas separadas por espacios o en lineas diferentes    -->
                           <gml:posList srsDimension="2">
-"""               
-    
+"""
+
 PLANTILLA_3 = """                          </gml:posList>
                         </gml:LinearRing>
                       </gml:exterior>
