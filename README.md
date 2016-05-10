@@ -59,8 +59,24 @@ Para usar el módulo en QGIS
 
 Más información en la entrada [Cómo usar módulos de Python en QGIS. Un ejemplo con dxf2gmlcatastro](http://www.sigdeletras.com/2016/como-usar-modulos-de-python-en-qgis-un-ejemplo-con-dxf2gmlcatastro)
 
+## Informacióm sobre el "Identificativo local de la parcela (localId)"
+Según el documento [Formato GML de parcela catastral](http://www.catastro.meh.es/documentos/formatos_intercambio/Formato%20GML%20parcela%20catastral.pdf)
+
+*Identificativo de la parcela (cp:inspireId):Se compone de un identificador (localId) y un espacio de nombres (namespace)*
+
+- *Si  la  parcela  está  inscrita  en  las  bases  de  datos  de  catastro,  o  se  desea conservar la referencia catastral en el caso de una segregación o agregación, el valor del atributo identificativo localId será la referencia catastral y el valor del  atributo namespace empleado  será ES.SDGC.CP ,  propio  de  la  Dirección General del Catastro.*
+- *Si la parcela no  existe  en la  base  de  datos  de  catastro  se deberá  emplear el valor  del  atributo namespace  ES.LOCAL.CP  y  un  identificador  unívoco  dentro del negocio jurídico en el cual se incluye el GMl de parcela catastral*
+
+**En esta versión el GML se ha generado como si la parcela catastral no existiera por lo que el atributo atributo namespace  es ES.LOCAL.CP y el id asignado es el mismo que el GML de ejemplo (ES.LOCAL.CP.1A). Este id puede ser editado con cualquier editor de texto.**
+
 ## 2do
-* Investigar qué es el "Identificativo local de la parcela"  y se si debería solicitar al ejecutar el script.
-* Generar un GML de varias parcelas catastrales
-* Crear un script para edificio
+* Añadir el "Identificativo local de la parcela (localId)" como argumento.
+* Generar un GML de varias parcelas catastrales(localId)
 * Probarlo en otros Sistemas Operativos (MacOS)
+
+## Notas
+De acuerdo con el artículo 18.3 del RD 417/2006, de 7 de abril, por el que se desarrolla el texto refundido de la Ley del Catastro Inmobiliario, aprobado por el Real Decreto legislativo 1/2004, de 5 de marzo , e n los siguientes supuestos la asignación de la referencia catastral se realizará conforme a las siguientes reglas:
+
+- División  o  agrupación  de  inmuebles:  la  referencia  de  la  finca  matriz  o  de  las  fincas  agrupadas  desaparecerá  y  se asignará una nueva a cada una de las fincas resultantes.
+- Segregación  de  inmuebles:  se  mantendrá  la  referencia  de  la  finca  sobre la  que  se  practica  la  segregación  y  se asignará una nueva a cada una de las fincas segregadas.
+- Agregación de inmuebles: se mantendrá la referencia de la finca sobre la que se practica la agregación.
